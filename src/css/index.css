@@ -1,6 +1,6 @@
 .cat {
     display: flex;
-    gap: 0px 30px;
+    gap: 0px 40px;
 }
 
 .img-cat {
@@ -14,12 +14,12 @@
 }
 
 .breed-select {
-    margin-bottom: 20px;
+    margin-bottom: 15px;
 }
 
 .breed-select {
     display: none;
-    margin-bottom: 20px;
+    margin-bottom: 15px;
 }
 
 .error {
