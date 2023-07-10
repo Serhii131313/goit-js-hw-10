@@ -51,10 +51,11 @@ function handleBreedSelect(event) {
                 showError();
             });
     }, 1000);
+
 }
 
 function showError() {
-    Notiflix.Notify.failure('Loading data, please wait...');
+    Notiflix.Notify.failure('Oops! Something went wrong! Try reloading the page!');
 }
 function init() {
     fetchBreeds()
