@@ -49,9 +49,8 @@ function handleBreedSelect(event) {
             })
             .catch(() => {
                 showError();
-            });
+            }).finally(() => hideLoader());
     }, 1000);
-
 }
 
 function showError() {
