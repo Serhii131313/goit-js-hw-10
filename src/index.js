@@ -5,18 +5,20 @@ import { fetchBreeds, fetchCatByBreed } from './cat-api.js';
 const breedSelect = document.querySelector('select.breed-select');
 const catInfoDiv = document.querySelector('div.cat-info');
 const loader = document.querySelector('p.loader');
-const error = document.querySelector('p.error');
-const catEl = document.querySelector('.cat');
+
 
 function hideLoader() {
     return (loader.style.display = 'none', catInfoDiv.style.display = 'block');
 }
-function Loader() {
+
+function spinnerLoader() {
     return (loader.style.display = 'block', catInfoDiv.style.display = 'none')
 }
+
 function vad() {
     return breedSelect.style.display = 'block';
 }
+
 function populateBreedSelect(breeds) {
     breedSelect.innerHTML = breeds
         .map(breed => `<option value="${breed.id}" >${breed.name}</option>`)
@@ -37,24 +39,29 @@ function showCatInfo(cat) {
 
     catInfoDiv.innerHTML = catInfoHTML;
 }
-
 function handleBreedSelect(event) {
-    Loader();
-    setTimeout(() => {
-        const breedId = event.target.value;
-        fetchCatByBreed(breedId)
-            .then(cat => {
-                showCatInfo(cat);
-                hideLoader();
-            })
-            .catch(() => {
-                showError();
-            }).finally(() => hideLoader());
-    }, 1000);
+    spinnerLoader();
+    catInfoDiv.innerHTML = '';
+    const breedId = event.target.value;
+    fetchCatByBreed(breedId)
+        .then(cat => {
+            console.log(cat.length);
+            if (cat.length === 0) {
+                throw new Error("Oops! Something went wrong! Try reloading the page!");
+            }
+
+            showCatInfo(cat);
+            hideLoader();
+        })
+        .catch((err) => {
+            console.error(err.message);
+            showError(err.message);
+            hideLoader();
+        });
 }
 
-function showError() {
-    Notiflix.Notify.failure('Oops! Something went wrong! Try reloading the page!');
+function showError(err) {
+    Notiflix.Notify.failure('${err}');
 }
 function init() {
     fetchBreeds()
